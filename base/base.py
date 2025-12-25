@@ -129,7 +129,7 @@ class PinOut:
     Arguments:
         pin (int): Numéro de la broche GPIO.
         chip (str): Nom du chip GPIO (par défaut "gpiochip0").
-        initial_value (int): Valeur initiale de la broche (0 ou 1).
+        __state (int): Valeur initiale de la broche (0 ou 1).
     """
     def __init__(self, pin, chip="gpiochip0", initial_value=0):
         """
@@ -142,7 +142,7 @@ class PinOut:
         """
         self.pin = pin
         self.chip_name = chip
-        self.value = initial_value
+        self.__state = 1 if initial_value else 0
 
         # Configuration de la broche en sortie selon la version de gpiod
         if is_gpiod_v2():
@@ -151,7 +151,7 @@ class PinOut:
                 consumer="gpiodzero",
                 config={self.pin: gpiod.LineSettings(
                     direction=gpiod.LineDirection.OUTPUT,
-                    output_value=self.value
+                    output_value=self.__state
                 )}
             )
         else:
@@ -160,9 +160,9 @@ class PinOut:
             self.line.request(
                 consumer="gpiodzero",
                 type=gpiod.LINE_REQ_DIR_OUT,
-                default_vals=[self.value]
+                default_vals=[self.__state]
             )
-
+    
     def write(self, value: int):
         """
         Écrit une valeur sur la broche GPIO.
@@ -173,12 +173,18 @@ class PinOut:
         Returns:
             None
         """
-        self.value = value
+        value = 1 if value else 0
+        self.__state = value
         if is_gpiod_v2():
             self.request.set_value(self.pin, value)
         else:
             self.line.set_value(value)
+    
+    @property
+    def state(self):
+        return self.__state
 
+    
     def close(self):
         """
         Libère la broche GPIO.y
@@ -205,7 +211,7 @@ class PinOut:
             str: Chaîne représentant l'état de la broche GPIO.
             
         """
-        return f"Pin {self.pin} = {self.value}"
+        return f"Pin {self.pin} = {self.__state}"
 
     def __repr__(self):
         """
@@ -218,4 +224,7 @@ class PinOut:
             str: Chaîne représentant l'état de la broche GPIO.
             
         """
-        return f"PinOut(chip='{self.chip_name}', pin={self.pin}, value={self.value})"
+        return f"PinOut(chip='{self.chip_name}', pin={self.pin}, value={self.__state})"
+
+if __name__ == "__main__":
+    print("Ce module ne doit pas être exécuté directement.")    

@@ -195,3 +195,6 @@ class PWM(PinOut):
             str: Représentation officielle de l'objet PWM.
         """
         return f"PWM(pin={self.pin}, frequency={self.__frequency}, duty_cycle={self.__duty_value}/{self.__duty_max})" 
+    
+     if __name__ == "__main__":
+        print("Ce module ne doit pas être exécuté directement.")
