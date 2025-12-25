@@ -5,6 +5,14 @@ Il s’inspire de `gpiozero` et offre une API simple et moderne pour contrôler 
 
 ---
 
+gpiodzero/
+├── base/             # Gestion bas niveau des GPIO (libgpiod, pins, lignes, PWM)
+├── composants/       # Composants haut niveau : LED, LEDRGB, Buzzer, Button, capteurs, afficheurs
+├── tests/            # Tests unitaires pour garantir la stabilité de la bibliothèque
+├── examples/         # Scripts d'exemples prêts à être exécutés
+├── docs/             # Documentation complète du projet
+
+
 ## 🚀 Installation
 
 Clonez le projet et installez-le avec `pip` :
