@@ -11,3 +11,6 @@ def is_gpiod_v2():
         bool: True si gpiod version 2 est utilisé, False sinon.
     """
     return hasattr(gpiod, "LineSettings")
+
+if __name__ == "__main__":
+    print("Ce module ne doit pas être exécuté directement.")
